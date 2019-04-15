@@ -20,6 +20,7 @@ public class AppSnilsSave {
             oiFile = file.toFile();
             try {
                 if (oiFile.isFile() && oiFile.canRead()) {
+                    //ToDo add loging
                     System.out.println(oiFile.getName());
                     snilsParser.snilsDataParser(oiFile);
 
@@ -28,10 +29,13 @@ public class AppSnilsSave {
                     Files.delete(file);
                 }
             } catch (Exception e){
+                //ToDo add loging
                 System.out.println("Есть не обрабатываемые файлы. Проверь папку snilsError");
                 //Files.copy(file, Paths.get("C:\\SmevAdapter\\integration\\files\\542202_3s\\in\\snilsError" + File.separator + file.getFileName().toString()));
                 Files.copy(file, Paths.get("\\\\Srv-term03\\542202_3s\\in\\snilsError" + File.separator + file.getFileName().toString()));
                 Files.delete(file);
+            } finally {
+                stream.close();
             }
         }
         Thread.sleep(10000);

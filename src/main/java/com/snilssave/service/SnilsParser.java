@@ -2,7 +2,6 @@ package com.snilssave.service;
 
 import com.snilssave.DAO.SnilsSaveDB;
 import com.snilssave.modele.SnilsByAdditionalDataResponse;
-import com.snilssave.modele.SnilsPassportRF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,15 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SnilsParser {
-    public void snilsDataParser(File file) throws ParserConfigurationException, IOException, SAXException, InterruptedException, SQLException {
+    public void snilsDataParser(File file) throws ParserConfigurationException, IOException, SAXException, SQLException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(file);//в переменной документ лежит результат парсинга
 
         SnilsSaveDB saveDB = new SnilsSaveDB();
-
-        //Element messageElement = (Element) document.getElementsByTagName("Message").item(0);//достаём элемент Message
-        //String type = messageElement.getAttribute("xsi:type");//достаём значение атрибута xsi:type
 
         NodeList snilsByAdditionalDataResponseNodeList = document.getElementsByTagName("ns2:SnilsByAdditionalDataResponse");//бежим по объектам с тегом ns2:SnilsByAdditionalDataResponse
 
@@ -38,8 +34,6 @@ public class SnilsParser {
                 Element snilsByAdditionalDataResponseElement = (Element) snilsByAdditionalDataResponseNodeList.item(i);//приведение ноды к элементу
 
                 SnilsByAdditionalDataResponse snilsByAdditionalDataResponse = new SnilsByAdditionalDataResponse();//создаём объект тега ns2:SnilsByAdditionalDataResponse
-
-                //snilsByAdditionalDataResponse.setType(type);//передаём значение type
 
                 NodeList childNodes = snilsByAdditionalDataResponseElement.getChildNodes();//объявляем список внутренних элементов тега ns2:SnilsByAdditionalDataResponse
                 for (int j = 0; j < childNodes.getLength(); j++) {//бежим по списку внутренних элементов
@@ -75,10 +69,10 @@ public class SnilsParser {
             }
         }
         String s = snilsByAdditionalDataResponseList.toString().replace("[","").replace("]","");
-        //snilsByAdditionalDataResponseList.forEach(System.out::println);
         System.out.println(s);
         saveDB.snilsInsert(s);
 
+        /**ToDo определиться нужны ли эти данные
         if (document.getElementsByTagName("PassportRF")!=null) {
 
             NodeList passportRFNodeList = document.getElementsByTagName("PassportRF");
@@ -117,6 +111,6 @@ public class SnilsParser {
                 }
             }
             snilsPassportRFList.forEach(System.out::println);
-        }
+        }*/
     }
 }

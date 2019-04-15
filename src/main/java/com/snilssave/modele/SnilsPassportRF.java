@@ -1,5 +1,8 @@
 package com.snilssave.modele;
 
+/**этот класс не используется.
+ * ToDo определиться нужны ли эти данные
+ */
 public class SnilsPassportRF {
     private Integer series;
     private Integer number;
